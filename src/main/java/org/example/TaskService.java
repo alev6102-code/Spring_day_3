@@ -39,7 +39,8 @@ public class TaskService {
     }
 
     public TaskResponse create(CreateTaskRequest taskRequest) {
-        taskRepository.save(new Task(nextId++, taskRequest.getTitle(), taskRequest.getDescription(), taskRequest.getPriority(), TaskStatus.NEW));
+        nextId++;
+        taskRepository.save(new Task(nextId, taskRequest.getTitle(), taskRequest.getDescription(), taskRequest.getPriority(), TaskStatus.NEW));
         return new TaskResponse(nextId, taskRequest.getTitle(), taskRequest.getDescription(), taskRequest.getPriority(), TaskStatus.NEW);
     }
 }
