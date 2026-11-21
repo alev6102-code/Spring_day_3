@@ -10,12 +10,16 @@ import java.util.Map;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
-    private int nextId = 0;
+    private int nextId = 1;
 
     public TaskService(TaskRepository taskRepository) {
 
         this.taskRepository = taskRepository;
 
+    }
+
+    public TaskResponse toResponse(Task task) {
+        return new TaskResponse(task.getId(), task.getTitle(), task.getDescription(), task.getPriority(),task.getStatus());
     }
 
     public List<TaskResponse> findAll(TaskStatus status) {
@@ -39,9 +43,9 @@ public class TaskService {
     }
 
     public TaskResponse create(CreateTaskRequest taskRequest) {
-        nextId++;
-        taskRepository.save(new Task(nextId, taskRequest.getTitle(), taskRequest.getDescription(), taskRequest.getPriority(), TaskStatus.NEW));
-        return new TaskResponse(nextId, taskRequest.getTitle(), taskRequest.getDescription(), taskRequest.getPriority(), TaskStatus.NEW);
+        Task task=new Task(nextId++,taskRequest.getTitle(),taskRequest.getDescription(),taskRequest.getPriority(),TaskStatus.NEW);
+        taskRepository.save(task);
+        return toResponse(task);
     }
 }
 

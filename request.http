@@ -1,0 +1,59 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### 1. Создать задачу -> 200, id 1, priority HIGH, status NEW
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Разобрать DI",
+  "description": "Нарисовать связи",
+  "priority": "HIGH"
+}
+
+### 2. Клиент пытается задать id и статус -> id 2, status NEW
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Второе",
+  "priority": "LOW",
+  "id": 99,
+  "status": "DONE"
+}
+
+### 3. Пустое тело -> 400
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+### 4. Ещё одна задача -> id 3 (номер не пропал после ошибки)
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Третье",
+  "priority": "CRITICAL"
+}
+
+### 5. Все задачи -> три задачи, id 1, 2, 3
+GET http://localhost:8080/api/tasks
+
+### 6. Фильтр с совпадениями -> три задачи
+GET http://localhost:8080/api/tasks?status=NEW
+
+### 7. Фильтр без совпадений -> []
+GET http://localhost:8080/api/tasks?status=DONE
+
+### 8. Неизвестный статус -> 400
+GET http://localhost:8080/api/tasks?status=WRONG
+
+### 9. По id -> «Разобрать DI», а не «Второе»
+GET http://localhost:8080/api/tasks/1
+
+### 10. По id -> «Третье»
+GET http://localhost:8080/api/tasks/3
+
+### 11. Все задачи ещё раз -> то же, что в запросе 5
+GET http://localhost:8080/api/tasks
+###

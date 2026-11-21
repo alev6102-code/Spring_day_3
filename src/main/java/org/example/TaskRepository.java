@@ -6,19 +6,17 @@ import java.util.*;
 
 @Repository
 public class TaskRepository {
-private final List<Task> tasks = new LinkedList<>();
+private final Map<Integer,Task> tasks = new LinkedHashMap<>();
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
+
 
     public List<Task> findAll() {
-     return  this.tasks;
+     return  new ArrayList<>(tasks.values());
 }
 
-public void  save(Task task) {
-    tasks.add(task);
-
+public Task  save(Task task) {
+    tasks.put(task.getId(), task);
+    return task;
 }
 
 public Task findById(int id) {

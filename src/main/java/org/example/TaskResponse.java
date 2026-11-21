@@ -26,5 +26,8 @@ public class TaskResponse {
     public TaskStatus getStatus() {
         return status;
     }
+    public TaskPriority getPriority() {
+        return priority;
+    }
     }
 

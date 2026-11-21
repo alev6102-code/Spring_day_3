@@ -12,12 +12,12 @@ public class TaskController {
         this.taskService = taskService;
     }
     @PostMapping
-public TaskResponse create(@RequestBody(required = false) CreateTaskRequest createTaskRequest){
+public TaskResponse create(@RequestBody CreateTaskRequest createTaskRequest){
        return taskService.create(createTaskRequest);
 }
 @GetMapping
-public List<TaskResponse> getTasks(TaskStatus taskStatus) {
-        return taskService.findAll(taskStatus);
+public List<TaskResponse> getAll(@RequestParam(required = false ) TaskStatus status) {
+        return taskService.findAll(status);
 }
 
 @GetMapping("/{id}")
